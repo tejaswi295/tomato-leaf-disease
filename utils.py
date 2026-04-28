@@ -82,7 +82,7 @@ class ImageInference:
         return {
             'class': class_names[predicted_class],
             'confidence': confidence,
-            'all_probabilities': {name: prob for name, prob in zip(class_names, probabilities[0].cpu().numpy())}
+            'all_probabilities': {name: float(prob) for name, prob in zip(class_names, probabilities[0].cpu().numpy())}
         }
     
     def generate_images(self, num_images=4, latent_dim=100):
@@ -246,8 +246,8 @@ def load_image_batch(image_dir, image_size=128, normalize=True):
                 image = Image.open(img_path).convert('RGB')
                 image = transform(image)
                 images.append(image)
-            except:
-                print(f"Failed to load {img_path}")
+            except Exception as e:
+                print(f"Failed to load {img_path}: {e}")
                 continue
     
     if images:
