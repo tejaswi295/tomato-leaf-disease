@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from utils import ImageInference, save_tensor_images
 import matplotlib.pyplot as plt
+from PIL import Image
+import numpy as np
 
 
 def main():
@@ -72,11 +74,11 @@ def main():
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
         
         for idx, img in enumerate(synthetic_images):
-            img_pil = plt.imshow(img)
-            plt.axis('off')
+            # Convert numpy array to PIL Image and save directly
+            img_clipped = np.clip(img * 255, 0, 255).astype(np.uint8)
+            img_pil = Image.fromarray(img_clipped)
             save_path = os.path.join(args.output_dir, f'generated_{idx:02d}.png')
-            plt.savefig(save_path, bbox_inches='tight', dpi=100)
-            plt.close()
+            img_pil.save(save_path)
             print(f"Saved: {save_path}")
         
         print(f"Generated images saved to: {args.output_dir}")
