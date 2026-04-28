@@ -26,7 +26,7 @@ except Exception as e:
 @app.route('/predict', methods=['POST'])
 def predict():
     if classifier is None:
-        return jsonify({'error': 'Model not loaded essentially on the server.'}), 500
+        return jsonify({'error': 'Model not loaded on the server.'}), 500
         
     if 'file' not in request.files:
         return jsonify({'error': 'No file provided in the request payload'}), 400
