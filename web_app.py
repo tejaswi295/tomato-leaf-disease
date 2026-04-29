@@ -23,6 +23,15 @@ except Exception as e:
     print(f"Error loading model: {e}")
     classifier = None
 
+@app.route('/')
+def health_check():
+    return jsonify({
+        'status': 'online',
+        'service': 'Tomato Leaf Disease Detection API',
+        'model_loaded': classifier is not None,
+        'endpoints': ['/predict/', '/gradcam/', '/metrics/', '/assets/<filename>']
+    })
+
 @app.route('/predict/', methods=['POST'])
 @app.route('/predict', methods=['POST'])
 def predict():
