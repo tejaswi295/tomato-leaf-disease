@@ -48,6 +48,7 @@ export default function Classification() {
     formData.append('file', file);
     const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
+    
     try {
       const predResponse = await axios.post(`${API_BASE}/predict/`, formData);
       setResult(predResponse.data);
