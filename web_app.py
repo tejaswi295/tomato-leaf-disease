@@ -111,6 +111,19 @@ def get_metrics():
             return jsonify(json.load(f))
     return jsonify({'detail': 'Metrics tracking JSON not found.'}), 404
 
+@app.route('/generated-images/', methods=['GET'])
+@app.route('/generated-images', methods=['GET'])
+def generated_images():
+    output_dir = './output'
+    if not os.path.exists(output_dir):
+        return jsonify({"urls": []})
+
+    images = [f for f in os.listdir(output_dir) if f.startswith('generated_epoch_') and f.endswith('.png')]
+    images.sort(key=lambda x: int(x.split('_')[2].split('.')[0]))
+
+    image_urls = [f"/assets/{img}" for img in images]
+    return jsonify({"urls": image_urls})
+
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
     """
