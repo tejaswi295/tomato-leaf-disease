@@ -15,7 +15,14 @@ import traceback
 
 app = Flask(__name__)
 # Enable CORS so the React frontend can query the API
-CORS(app)
+
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "https://tomato-leaf-disease-alpha.vercel.app"
+        ]
+    }
+})
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max limit
 
