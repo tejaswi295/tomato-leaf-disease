@@ -21,7 +21,7 @@ export default function Home({ setActiveTab }) {
   const [error, setError] = useState(null);
   const [gradcamImage, setGradcamImage] = useState(null);
 
-  const API_BASE = import.meta.env.VITE_API_URL || 'https://tomato-leaf-disease-2-xb8w.onrender.com/';
+  const API_BASE =  'https://tomato-leaf-disease-2-xb8w.onrender.com/';
 
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0];
