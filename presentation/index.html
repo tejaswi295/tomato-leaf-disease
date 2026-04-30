@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomato Leaf Disease Detection - Project Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="slide-counter" id="slideCounter">1 / 15</div>
+
+<div class="nav-buttons">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8592;</button>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8594;</button>
+</div>
+
+<div class="slides-container" id="slidesContainer">
+
+  <!-- SLIDE 1: Title -->
+  <section class="slide active" data-bg="gradient1">
+    <div class="slide-content center-content">
+      <div class="badge">Final Year Project Presentation</div>
+      <h1 class="title-xl">Tomato Leaf Disease Detection</h1>
+      <p class="subtitle">Using DCGAN &amp; Transfer Learning with EfficientNet-B0</p>
+      <div class="divider"></div>
+      <p class="meta">PlantVillage Dataset &bull; PyTorch &bull; FastAPI &bull; React</p>
+      <div class="tag-row">
+        <span class="tag">Deep Learning</span>
+        <span class="tag">GAN</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">Precision Agriculture</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Agenda -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Overview</h2>
+      <h1>Presentation Agenda</h1>
+      <div class="agenda-grid">
+        <div class="agenda-item"><span class="num">01</span><span>Literature Survey</span></div>
+        <div class="agenda-item"><span class="num">02</span><span>Existing Methodology</span></div>
+        <div class="agenda-item"><span class="num">03</span><span>Proposed Methodology</span></div>
+        <div class="agenda-item"><span class="num">04</span><span>Model Development &mdash; Software</span></div>
+        <div class="agenda-item"><span class="num">05</span><span>Model Development &mdash; Hardware</span></div>
+        <div class="agenda-item"><span class="num">06</span><span>Model Development &mdash; Analysis</span></div>
+        <div class="agenda-item"><span class="num">07</span><span>Results &amp; Demo</span></div>
+        <div class="agenda-item"><span class="num">08</span><span>Conclusions &amp; Future Work</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Problem Statement -->
+  <section class="slide" data-bg="gradient2">
+    <div class="slide-content">
+      <h2 class="section-label">Introduction</h2>
+      <h1>Problem Statement</h1>
+      <div class="two-col">
+        <div>
+          <div class="stat-card">
+            <div class="stat-number">$17B</div>
+            <div class="stat-label">Annual crop losses due to plant diseases worldwide</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">10</div>
+            <div class="stat-label">Common tomato leaf disease classes in PlantVillage</div>
+          </div>
+        </div>
+        <div>
+          <ul class="feature-list">
+            <li>Manual disease identification is <strong>slow and error-prone</strong></li>
+            <li>Expert pathologists are <strong>scarce in rural areas</strong></li>
+            <li>Late detection leads to <strong>catastrophic yield loss</strong></li>
+            <li>Need for <strong>automated, real-time</strong> diagnosis system</li>
+            <li>Class imbalance in datasets reduces <strong>model reliability</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Literature Survey -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Literature Survey</h2>
+      <h1>Key Research Foundations</h1>
+      <div class="papers-grid">
+        <div class="paper-card">
+          <div class="paper-year">2016</div>
+          <h3>Mohanty et al.</h3>
+          <p>Deep learning for plant disease detection using PlantVillage. Achieved 99.35% on lab images but <strong>poor field generalization</strong>.</p>
+        </div>
+        <div class="paper-card">
+          <div class="paper-year">2016</div>
+          <h3>Radford et al. (DCGAN)</h3>
+          <p>Unsupervised representation learning with DCGANs. Established <strong>architectural guidelines</strong> for stable GAN training.</p>
+        </div>
+        <div class="paper-card">
+          <div class="paper-year">2019</div>
+          <h3>Tan &amp; Le (EfficientNet)</h3>
+          <p>Compound scaling of CNNs. EfficientNet-B0 achieves <strong>77.1% top-1 ImageNet accuracy</strong> with only 5.3M parameters.</p>
+        </div>
+        <div class="paper-card">
+          <div class="paper-year">2020</div>
+          <h3>Zhang et al. (MixUp)</h3>
+          <p>Empirical risk minimization via convex combinations. Reduces <strong>memorization and overfitting</strong> significantly.</p>
+        </div>
+        <div class="paper-card">
+          <div class="paper-year">2020</div>
+          <h3>Selvaraju et al. (Grad-CAM)</h3>
+          <p>Visual explanations from deep networks. Enables <strong>explainable AI</strong> for model trust &amp; debugging.</p>
+        </div>
+        <div class="paper-card">
+          <div class="paper-year">2021</div>
+          <h3>Abbas et al.</h3>
+          <p>GAN-based augmentation for tomato disease classification. Synthetic data improved <strong>minority class recall by 12%</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Literature Survey Gaps -->
+  <section class="slide" data-bg="gradient1">
+    <div class="slide-content">
+      <h2 class="section-label">Literature Survey</h2>
+      <h1>Identified Research Gaps</h1>
+      <div class="gap-cards">
+        <div class="gap-card red">
+          <h3>&#9888; Data Leakage</h3>
+          <p>Most studies do not account for near-duplicate images leaking across train/test splits, inflating accuracy metrics.</p>
+        </div>
+        <div class="gap-card orange">
+          <h3>&#9888; Poor Generalization</h3>
+          <p>Models trained on controlled lab images fail on real-world field photos due to lack of robust augmentation.</p>
+        </div>
+        <div class="gap-card yellow">
+          <h3>&#9888; No Explainability</h3>
+          <p>Black-box CNN classifiers lack visual explanations, reducing trust among agronomists and farmers.</p>
+        </div>
+        <div class="gap-card blue">
+          <h3>&#9888; No End-to-End System</h3>
+          <p>Research stops at model accuracy; no deployable web interface for real-time field diagnosis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Existing Methodology -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Existing Methodology</h2>
+      <h1>Traditional Approaches</h1>
+      <div class="methodology-flow">
+        <div class="flow-step">
+          <div class="flow-icon">&#128248;</div>
+          <h3>Image Capture</h3>
+          <p>Controlled lab photography</p>
+        </div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-step">
+          <div class="flow-icon">&#9881;</div>
+          <h3>Manual Features</h3>
+          <p>Color histograms, texture (GLCM), shape descriptors</p>
+        </div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-step">
+          <div class="flow-icon">&#129302;</div>
+          <h3>Simple CNN</h3>
+          <p>VGG16 / AlexNet with random weight init</p>
+        </div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-step">
+          <div class="flow-icon">&#10004;</div>
+          <h3>Classification</h3>
+          <p>3-5 disease classes only</p>
+        </div>
+      </div>
+      <h2 style="margin-top:2rem;">Limitations</h2>
+      <div class="limitations-grid">
+        <div class="limit-item">&#10060; No transfer learning &mdash; trains from scratch</div>
+        <div class="limit-item">&#10060; Basic augmentation (flip, rotate only)</div>
+        <div class="limit-item">&#10060; No class imbalance handling</div>
+        <div class="limit-item">&#10060; No data leakage prevention</div>
+        <div class="limit-item">&#10060; No explainability (Grad-CAM)</div>
+        <div class="limit-item">&#10060; No deployment / web interface</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Proposed Methodology -->
+  <section class="slide" data-bg="gradient2">
+    <div class="slide-content">
+      <h2 class="section-label">Proposed Methodology</h2>
+      <h1>Our Approach</h1>
+      <img src="methodology_comparison.png" alt="Methodology Comparison" class="slide-img" style="max-height:260px;margin-bottom:1rem;">
+      <div class="proposed-grid">
+        <div class="proposed-item green">
+          <h3>&#10003; DCGAN Augmentation</h3>
+          <p>Generate synthetic diseased leaf images to balance minority classes</p>
+        </div>
+        <div class="proposed-item green">
+          <h3>&#10003; Transfer Learning</h3>
+          <p>EfficientNet-B0 &amp; ResNet50 pretrained on ImageNet with fine-tuning</p>
+        </div>
+        <div class="proposed-item green">
+          <h3>&#10003; MixUp + Label Smoothing</h3>
+          <p>Prevent memorization; improve calibration of predictions</p>
+        </div>
+        <div class="proposed-item green">
+          <h3>&#10003; Grad-CAM Explainability</h3>
+          <p>Visual heatmaps showing which leaf regions drive the prediction</p>
+        </div>
+        <div class="proposed-item green">
+          <h3>&#10003; Leak-Proof Splitting</h3>
+          <p>Group-aware 70/15/15 train/val/test split prevents data leakage</p>
+        </div>
+        <div class="proposed-item green">
+          <h3>&#10003; Full-Stack Deployment</h3>
+          <p>FastAPI backend + React dashboard for real-time web diagnosis</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: System Architecture -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Model Development &mdash; Software</h2>
+      <h1>System Architecture</h1>
+      <img src="system_architecture.png" alt="System Architecture" class="slide-img">
+      <div class="tech-tags">
+        <span class="tech-tag">Python 3.10</span>
+        <span class="tech-tag">PyTorch 2.2</span>
+        <span class="tech-tag">torchvision</span>
+        <span class="tech-tag">FastAPI</span>
+        <span class="tech-tag">React + Vite</span>
+        <span class="tech-tag">scikit-learn</span>
+        <span class="tech-tag">Matplotlib</span>
+        <span class="tech-tag">Pillow</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: DCGAN Architecture -->
+  <section class="slide" data-bg="gradient1">
+    <div class="slide-content">
+      <h2 class="section-label">Model Development &mdash; Software</h2>
+      <h1>DCGAN Architecture</h1>
+      <div class="two-col">
+        <div class="arch-card">
+          <h3>Generator</h3>
+          <div class="arch-detail">
+            <p><strong>Input:</strong> 100-dim noise vector z ~ N(0,1)</p>
+            <p><strong>Layer 1:</strong> Linear &rarr; 512&times;8&times;8</p>
+            <p><strong>Layer 2:</strong> ConvT 512&rarr;256, 4&times;4, stride 2</p>
+            <p><strong>Layer 3:</strong> ConvT 256&rarr;128, 4&times;4, stride 2</p>
+            <p><strong>Layer 4:</strong> ConvT 128&rarr;64, 4&times;4, stride 2</p>
+            <p><strong>Layer 5:</strong> ConvT 64&rarr;32, 4&times;4, stride 2</p>
+            <p><strong>Output:</strong> ConvT 32&rarr;3, Tanh &rarr; 128&times;128 RGB</p>
+            <p class="arch-note">BatchNorm + ReLU after each layer</p>
+          </div>
+        </div>
+        <div class="arch-card">
+          <h3>Discriminator</h3>
+          <div class="arch-detail">
+            <p><strong>Input:</strong> 3&times;128&times;128 RGB image</p>
+            <p><strong>Layer 1:</strong> Conv 3&rarr;32, LeakyReLU(0.2)</p>
+            <p><strong>Layer 2:</strong> Conv 32&rarr;64, BN + LeakyReLU</p>
+            <p><strong>Layer 3:</strong> Conv 64&rarr;128, BN + LeakyReLU</p>
+            <p><strong>Layer 4:</strong> Conv 128&rarr;256, BN + LeakyReLU</p>
+            <p><strong>Layer 5:</strong> Conv 256&rarr;512, BN + LeakyReLU</p>
+            <p><strong>Output:</strong> FC 512&times;4&times;4 &rarr; 128 &rarr; 1, Sigmoid</p>
+            <p class="arch-note">Dropout(0.3) before final layer</p>
+          </div>
+        </div>
+      </div>
+      <div class="config-row">
+        <span>Loss: BCE</span><span>Optimizer: Adam (lr=0.0002, &beta;1=0.5)</span><span>Epochs: 100</span><span>Batch: 64</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Classifier Architecture -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Model Development &mdash; Software</h2>
+      <h1>Classifier: EfficientNet-B0</h1>
+      <div class="classifier-overview">
+        <div class="class-step">
+          <h3>Backbone</h3>
+          <p>EfficientNet-B0 pretrained on ImageNet (5.3M params). Base layers <strong>frozen</strong>; final 2 conv stages <strong>unfrozen</strong> for fine-tuning.</p>
+        </div>
+        <div class="class-step">
+          <h3>Classification Head</h3>
+          <p>Linear(1280 &rarr; 512) &rarr; BatchNorm &rarr; ReLU &rarr; Dropout(0.3) &rarr; Linear(512 &rarr; 10)</p>
+        </div>
+        <div class="class-step">
+          <h3>Anti-Overfitting</h3>
+          <p>MixUp(&alpha;=0.2), Label Smoothing(0.1), RandomErasing, Gaussian Noise, Gradient Clipping(1.0)</p>
+        </div>
+        <div class="class-step">
+          <h3>Training</h3>
+          <p>AdamW (lr=5e-4, wd=1e-4), CosineAnnealing LR, Early Stopping (patience=8), Weighted CrossEntropy</p>
+        </div>
+      </div>
+      <h3 style="margin-top:1.5rem;">10 Disease Classes</h3>
+      <div class="disease-tags">
+        <span>Bacterial Spot</span><span>Early Blight</span><span>Late Blight</span>
+        <span>Leaf Mold</span><span>Septoria Leaf Spot</span><span>Spider Mites</span>
+        <span>Target Spot</span><span>Yellow Leaf Curl Virus</span><span>Mosaic Virus</span>
+        <span class="healthy">Healthy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Hardware -->
+  <section class="slide" data-bg="gradient2">
+    <div class="slide-content">
+      <h2 class="section-label">Model Development &mdash; Hardware</h2>
+      <h1>Hardware &amp; Environment</h1>
+      <table class="hw-table">
+        <tr><th>Component</th><th>Specification</th></tr>
+        <tr><td>GPU</td><td>NVIDIA CUDA-enabled (recommended); CPU fallback supported</td></tr>
+        <tr><td>RAM</td><td>16 GB minimum</td></tr>
+        <tr><td>Storage</td><td>~5 GB (dataset + checkpoints)</td></tr>
+        <tr><td>OS</td><td>Windows 10/11</td></tr>
+        <tr><td>Python</td><td>3.10+</td></tr>
+        <tr><td>Framework</td><td>PyTorch 2.2 + torchvision 0.17</td></tr>
+        <tr><td>Backend</td><td>FastAPI + Uvicorn (port 8000)</td></tr>
+        <tr><td>Frontend</td><td>React 18 + Vite (port 5173)</td></tr>
+        <tr><td>Dataset</td><td>PlantVillage (~18,000 tomato images)</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Data Augmentation Pipeline -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Model Development &mdash; Analysis</h2>
+      <h1>Data Augmentation Pipeline</h1>
+      <div class="aug-pipeline">
+        <div class="aug-step">Resize 256</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">RandomResizedCrop 224 (0.6-1.0)</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">H-Flip (0.5) + V-Flip (0.3)</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">Rotation (&plusmn;30&deg;)</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">Perspective (0.2)</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">ColorJitter</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">GaussianBlur (p=0.2)</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">Gaussian Noise (&sigma;=0.02)</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">ImageNet Normalize</div>
+        <div class="aug-arrow">&rarr;</div>
+        <div class="aug-step">RandomErasing (p=0.2)</div>
+      </div>
+      <h3 style="margin-top:2rem;">Dataset Split Strategy</h3>
+      <div class="split-visual">
+        <div class="split-bar train" style="width:70%;">Train 70%</div>
+        <div class="split-bar val" style="width:15%;">Val 15%</div>
+        <div class="split-bar test" style="width:15%;">Test 15%</div>
+      </div>
+      <p class="split-note">Group-aware splitting by filename prefix prevents near-duplicate leakage across splits</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 13: Results -->
+  <section class="slide" data-bg="gradient1">
+    <div class="slide-content">
+      <h2 class="section-label">Results</h2>
+      <h1>Performance Metrics</h1>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-value">94.2%</div>
+          <div class="result-label">Test Accuracy</div>
+        </div>
+        <div class="result-card">
+          <div class="result-value">93.8%</div>
+          <div class="result-label">Precision (Weighted)</div>
+        </div>
+        <div class="result-card">
+          <div class="result-value">94.2%</div>
+          <div class="result-label">Recall (Weighted)</div>
+        </div>
+        <div class="result-card">
+          <div class="result-value">93.9%</div>
+          <div class="result-label">F1-Score (Weighted)</div>
+        </div>
+      </div>
+      <div class="features-row">
+        <div class="feat-item">
+          <h3>&#128200; Grad-CAM</h3>
+          <p>Visual explanations highlight diseased leaf regions, building trust with agricultural experts.</p>
+        </div>
+        <div class="feat-item">
+          <h3>&#9889; Real-Time API</h3>
+          <p>FastAPI endpoint returns predictions in &lt;500ms including image upload and preprocessing.</p>
+        </div>
+        <div class="feat-item">
+          <h3>&#127760; Web Dashboard</h3>
+          <p>React frontend with drag-and-drop upload, live classification, and probability visualization.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 14: Conclusions -->
+  <section class="slide" data-bg="dark">
+    <div class="slide-content">
+      <h2 class="section-label">Conclusions</h2>
+      <h1>Key Takeaways</h1>
+      <div class="conclusion-items">
+        <div class="conc-item">
+          <span class="conc-num">1</span>
+          <div>
+            <h3>Robust Classification</h3>
+            <p>EfficientNet-B0 with transfer learning achieves high accuracy across all 10 tomato disease classes while maintaining generalization through aggressive augmentation and anti-overfitting techniques.</p>
+          </div>
+        </div>
+        <div class="conc-item">
+          <span class="conc-num">2</span>
+          <div>
+            <h3>GAN-Based Data Augmentation</h3>
+            <p>DCGAN generates realistic synthetic diseased leaf images, addressing class imbalance and improving minority class recall without manual data collection.</p>
+          </div>
+        </div>
+        <div class="conc-item">
+          <span class="conc-num">3</span>
+          <div>
+            <h3>Explainable AI</h3>
+            <p>Grad-CAM heatmaps provide visual evidence for predictions, enabling farmers and pathologists to trust and verify the model's decision-making process.</p>
+          </div>
+        </div>
+        <div class="conc-item">
+          <span class="conc-num">4</span>
+          <div>
+            <h3>End-to-End Deployment</h3>
+            <p>Complete full-stack system (FastAPI + React) enables real-time disease diagnosis from any device with a web browser &mdash; bridging the gap from research to practical field use.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 15: Future Work -->
+  <section class="slide" data-bg="gradient2">
+    <div class="slide-content center-content">
+      <h2 class="section-label">Future Work</h2>
+      <h1>Roadmap</h1>
+      <ul class="future-list">
+        <li>Implement Wasserstein GAN (WGAN-GP) for more stable, higher-quality image synthesis</li>
+        <li>Add self-attention mechanisms (SAGAN) for fine-grained lesion detection</li>
+        <li>Multi-GPU distributed training for larger dataset scaling</li>
+        <li>Mobile app with on-device inference (TorchScript / ONNX)</li>
+        <li>Real-time camera feed disease detection for in-field use</li>
+        <li>Expand to multi-crop disease detection beyond tomato</li>
+      </ul>
+      <div class="divider"></div>
+      <h1 style="font-size:2rem;margin-top:1rem;">Thank You</h1>
+      <p class="subtitle">Questions &amp; Discussion</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function showSlide(n) {
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'slide-left', 'slide-right');
+    if (i < n) s.classList.add('slide-left');
+    else if (i > n) s.classList.add('slide-right');
+    else s.classList.add('active');
+  });
+  document.getElementById('slideCounter').textContent = `${n + 1} / ${total}`;
+  document.getElementById('progressBar').style.width = `${((n + 1) / total) * 100}%`;
+  document.getElementById('prevBtn').style.opacity = n === 0 ? '0.3' : '1';
+  document.getElementById('nextBtn').style.opacity = n === total - 1 ? '0.3' : '1';
+}
+
+function changeSlide(dir) {
+  const next = currentSlide + dir;
+  if (next >= 0 && next < total) { currentSlide = next; showSlide(currentSlide); }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+});
+
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
