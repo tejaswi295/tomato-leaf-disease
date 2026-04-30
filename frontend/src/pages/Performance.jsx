@@ -5,7 +5,7 @@ import { Activity, Target, CheckCircle, Crosshair, RefreshCw } from 'lucide-reac
 export default function Performance() {
   const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
-  const API_BASE = import.meta.env.VITE_API_URL || 'https://tomato-leaf-disease-2-xb8w.onrender.com/';
+  const API_BASE = 'https://tomato-leaf-disease-2-xb8w.onrender.com/';
 
   useEffect(() => {
     axios.get(`${API_BASE}/metrics/`)
