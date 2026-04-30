@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')  # Must be before any other matplotlib imports (headless server)
+
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from utils import ImageInference
@@ -8,6 +11,7 @@ import io
 import uuid
 import numpy as np
 import json
+import traceback
 
 app = Flask(__name__)
 # Enable CORS so the React frontend can query the API
@@ -97,9 +101,10 @@ def gradcam():
         
         return jsonify({"gradcam_base64": gradcam_b64})
     except Exception as e:
+        traceback.print_exc()
         if 'temp_path' in locals() and os.path.exists(temp_path):
             os.remove(temp_path)
-        return jsonify({'detail': str(e)}), 500
+        return jsonify({'detail': str(e), 'traceback': traceback.format_exc()}), 500
 
 @app.route('/metrics/', methods=['GET'])
 @app.route('/metrics', methods=['GET'])
