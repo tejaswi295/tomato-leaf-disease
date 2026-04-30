@@ -18,9 +18,9 @@ app = Flask(__name__)
 
 CORS(app, resources={
     r"/*": {
-        "origins": [
-            "https://tomato-leaf-disease-alpha.vercel.app"
-        ]
+        "origins": {
+            "*"
+            }
     }
 })
 
