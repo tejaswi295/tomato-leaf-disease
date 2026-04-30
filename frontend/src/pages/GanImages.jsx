@@ -6,7 +6,7 @@ export default function GanImages() {
   const [urls, setUrls] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+  const API_BASE = import.meta.env.VITE_API_URL || 'https://tomato-leaf-disease-1-sf8o.onrender.com';
 
   useEffect(() => {
     axios.get(`${API_BASE}/generated-images/`)
