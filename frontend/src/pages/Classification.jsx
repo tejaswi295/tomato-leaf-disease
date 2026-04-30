@@ -46,7 +46,7 @@ export default function Classification() {
 
     const formData = new FormData();
     formData.append('file', file);
-    const API_BASE = import.meta.env.VITE_API_URL || 'https://tomato-leaf-disease-1-sf8o.onrender.com';
+    const API_BASE = import.meta.env.VITE_API_URL || 'https://tomato-leaf-disease-2-sf8o.onrender.com';
 
 
     try {
