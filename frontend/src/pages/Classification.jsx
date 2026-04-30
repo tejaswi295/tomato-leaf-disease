@@ -38,7 +38,12 @@ export default function Classification() {
   };
 
   const handleClassify = async () => {
-    if (!file) return;
+    console.log("CLICKED", file);
+    if (!file) {
+    console.log("NO FILE SELECTED");
+    alert("Please upload or capture an image first");
+    return;
+    }
     setLoading(true);
     setError(null);
     setResult(null);
